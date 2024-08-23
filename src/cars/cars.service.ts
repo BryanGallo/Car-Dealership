@@ -49,6 +49,19 @@ export class CarsService {
   }
 
   updateCar(id: string, updateCarDto: UpdateCarDto) {
-    return updateCarDto;
+    let carDb = this.findOneById(id);
+
+    if(updateCarDto.id && updateCarDto.id !== id){
+      throw new NotFoundException(`Car id is not valid inside body`);
+    }
+
+    this.cars = this.cars.map((car) => {
+      if (car.id === id) {
+        carDb = { ...carDb, ...updateCarDto, id };
+        return carDb
+      }
+      return car;
+    });
+    return carDb;
   }
 }
