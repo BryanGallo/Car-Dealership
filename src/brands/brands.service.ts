@@ -38,8 +38,24 @@ export class BrandsService {
     return brand;
   }
 
-  update(id: number, updateBrandDto: UpdateBrandDto) {
-    return `This action updates a #${id} brand`;
+  update(id: string, updateBrandDto: UpdateBrandDto) {
+    let brandDb = this.findOne(id);
+    if (updateBrandDto.id && updateBrandDto.id !== id)
+      throw new NotFoundException(`Brand id is not valid inside body`);
+
+    this.brands = this.brands.map((brand) => {
+      if (brand.id === id) {
+        brandDb = {
+          ...brandDb,
+          ...updateBrandDto,
+          id,
+        };
+        return brandDb;
+      }
+      return brand;
+    });
+
+    return brandDb;
   }
 
   remove(id: number) {
