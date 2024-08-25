@@ -58,7 +58,13 @@ export class BrandsService {
     return brandDb;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} brand`;
+  remove(id: string) {
+    const brand = this.findOne(id);
+    if (!brand) {
+      throw new NotFoundException(`Brand with id '${id}' not found`);
+    }
+
+    this.brands = this.brands.filter((brand) => brand.id !== id);
+    return this.brands;
   }
 }
