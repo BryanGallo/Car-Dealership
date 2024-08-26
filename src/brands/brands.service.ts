@@ -67,4 +67,9 @@ export class BrandsService {
     this.brands = this.brands.filter((brand) => brand.id !== id);
     return this.brands;
   }
+
+  fillBrandsWithSeedData(brands: Brand[]) {
+    this.brands = brands;
+    return this.brands;
+  }
 }
